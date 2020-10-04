@@ -35,6 +35,8 @@
     <Compile Include="manage.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Procfile.txt" />
+    <Content Include="runtime.txt" />
     <Content Include="templates\index.html" />
   </ItemGroup>
   <ItemGroup>
