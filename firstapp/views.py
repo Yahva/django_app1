@@ -1,35 +1,57 @@
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import UserForm
+from .models import Patient
 
+# получение данных из бд
 def index(request):
-    header = "Calculator" 
-    
-    if request.method == "POST":
-        userform = UserForm(request.POST) #заполняем форму пришедшими данными
-        if userform.is_valid():
-            a = request.POST.get("a")
-            b = request.POST.get("b")     # получение значения поля age
-            sum = float(a)+float(b)
-            data = {"header": header, "form": userform, "sum": sum}  
-        else:
-            return HttpResponse("Invalid data")
-    else:  
-        userform = UserForm()
-        data = {"header": header, "form": userform}
-
+    patients = Patient.objects.all()
+    userForm = UserForm()
+    data = {"patients": patients, "form": userForm}
     return render(request, "index.html", context=data)
  
-def about(request):
-    return HttpResponse("<h2>О сайте</h2>")
- 
-def contact(request):
-    return HttpResponse("<h2>Контакты</h2>")
+# сохранение данных в бд
+def create(request):
+    if request.method == "POST":
+        newPatient = Patient()
+        newPatient.surname = request.POST.get("surname")
+        newPatient.name = request.POST.get("name")
+        newPatient.patronymic = request.POST.get("patronymic")
+        newPatient.age = request.POST.get("age")
+        newPatient.save()
+    return HttpResponseRedirect("/")
 
-def products(request, productid):
-    output = "<h2>Product № {0}</h2>".format(productid)
-    return HttpResponse(output)
+# изменение данных в бд
+def edit(request, id):
+    try:
+        editPatient = Patient.objects.get(id=id)
  
-def users(request, id, name):
-    output = "<h2>User</h2><h3>Id: {0}  Name: {1}</h3>".format(id, name)
-    return HttpResponse(output)
+        if request.method == "POST":
+            editPatient.surname = request.POST.get("surname")
+            editPatient.name = request.POST.get("name")
+            editPatient.patronymic = request.POST.get("patronymic")
+            editPatient.age = request.POST.get("age")
+            editPatient.save()
+            return HttpResponseRedirect("/")
+        else:
+            userForm = UserForm(initial=
+                                {
+                                    'surname': editPatient.surname, 
+                                    'name': editPatient.name,
+                                    'patronymic': editPatient.patronymic,
+                                    'age': editPatient.age
+                                })
+            data = { "form": userForm}
+            return render(request, "edit.html", context=data)
+    except Patient.DoesNotExist:
+        return HttpResponseNotFound("<h2>Пациент не найден!</h2>")
+     
+# удаление данных из бд
+def delete(request, id):
+    try:
+        patient = Patient.objects.get(id=id)
+        patient.delete()
+        return HttpResponseRedirect("/")
+    except Patient.DoesNotExist:
+        return HttpResponseNotFound("<h2>Пациент не найден!</h2>")

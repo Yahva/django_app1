@@ -3,17 +3,32 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Hello Friend</title>
+    <title>Мир здоровья</title>
 </head>
-<body>
-    <h1>{{header}}</h1>
-    <form method="POST">
+<body class="container">
+    <h2>Создание пациента:</h2>
+    <form method="POST" action="create/">
         {% csrf_token %}
         <table>
-            {{ form.as_table }}
+            {{ form }}
         </table>
-        <input type="submit" value="Send">
+        <input type="submit" value="Сохранить">
     </form>
-    <h2>Sum: {{sum}}</h2>
+    {% if patients.count > 0 %}
+    <h2>Список пациентов:</h2>
+    <table>
+        <tr><th>Id</th><th>Фамилия</th><th>Имя</th><th>Отчестов</th><th>Возраст</th></tr>
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.id }}</td>
+            <td>{{ patient.surname }}</td>
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.patronymic }}</td>
+            <td>{{ patient.age }}</td>
+            <td><a href="edit/{{patient.id}}">Изменить</a> | <a href="delete/{{patient.id}}">Удалить</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
 </body>
 </html>

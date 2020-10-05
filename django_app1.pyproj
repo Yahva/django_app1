@@ -27,6 +27,7 @@
     <Compile Include="firstapp\admin.py" />
     <Compile Include="firstapp\apps.py" />
     <Compile Include="firstapp\forms.py" />
+    <Compile Include="firstapp\migrations\0001_initial.py" />
     <Compile Include="firstapp\migrations\__init__.py" />
     <Compile Include="firstapp\models.py" />
     <Compile Include="firstapp\tests.py" />
@@ -37,6 +38,7 @@
   <ItemGroup>
     <Content Include="Procfile.txt" />
     <Content Include="runtime.txt" />
+    <Content Include="templates\edit.html" />
     <Content Include="templates\index.html" />
   </ItemGroup>
   <ItemGroup>
