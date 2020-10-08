@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Создание врача</title>
+</head>
+<body>
+    <h2>Добавить врача:</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input type="submit" value="Добавить">
+    </form>
+    <h2>Список врачей в системе:</h2>
+    <table>
+        <tr><th>Id</th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Специальность</th></tr>
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.id }}</td>
+            <td>{{ doctor.surname }}</td>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.patronymic }}</td>
+            <td>{{ doctor.specDoctor }}</td>
+            <td><a href="../delDoctor/{{doctor.id}}">Удалить</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

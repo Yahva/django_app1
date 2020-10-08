@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Талоны</title>
+</head>
+<body>
+    <h2>Добавить талон:</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input type="submit" value="Добавить">
+    </form>
+    <h2>Список талонов в системе:</h2>
+    <table>
+        <tr><th>Id</th><th>Вермя</th><th>Сотояние</th><th>DocID</th></tr>
+        {% for ticket in tickets %}
+        <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.time }}</td>
+            <td>{{ ticket.isBusy }}</td>
+            <td>{{ ticket.docID }}</td>
+            <td><a href="../delTicket/{{ticket.id}}">Удалить</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

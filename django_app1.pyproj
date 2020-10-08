@@ -38,8 +38,11 @@
   <ItemGroup>
     <Content Include="Procfile.txt" />
     <Content Include="runtime.txt" />
-    <Content Include="templates\edit.html" />
-    <Content Include="templates\index.html" />
+    <Content Include="templates\createDoctor.html" />
+    <Content Include="templates\createTicket.html" />
+    <Content Include="templates\doctorAccount.html" />
+    <Content Include="templates\recordPatient.html" />
+    <Content Include="templates\createSpecDoctor.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="django_app1" />

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Запись на прием</title>
+</head>
+<body class="container">
+    <h1>Запись на прием к врачу</h1>
+    <!--1-Выберите специальность врача--------------------------------->
+    {% if step == 1 %}
+    <h2>1/4 - Выберите специальность врача:</h2>
+    <table>
+        {% for specDoctor in specDoctors %}
+        <tr>
+            <td>{{ specDoctor.name }}</td>
+            <td><a href="recordStep/{{specDoctor.id}}">Выбрать</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+    {% endif %}
+
+    <!--2-Выберите врача---------------------------------------------->
+    {% if step >= 2 %}
+    <table>
+        <tr>
+            <th>1-Специальность врача:</th>
+            <td>{{specDoctor}}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    {% if step == 2 %}
+    <h2>2/4 - Выберите врача:</h2>
+    <table>
+        <tr><th>Фамилия</th><th>Имя</th><th>Отчество</th></tr>
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.surname }}</td>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.patronymic }}</td>
+            <td><a href="{{doctor.id}}">Выбрать</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <!--3-Выберите талон:--------------------------------------->
+    {% if step >= 3 %}
+    <table>
+        <tr>
+            <th>2-Врач:</th>
+            <td>{{ doctor.surname }}</td>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.patronymic }}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    {% if step == 3 %}
+    <h2>3/4 - Выберите талон:</h2>
+    <table>
+        <tr><th>Время</th></tr>
+        {% for ticket in  tickets %}
+        <tr>
+            <td>{{ ticket.time }}</td>
+            {% if ticket.isBusy %}
+            <td>Занято</td>
+            {% else %}
+            <td><a href="{{ticket.id}}">Выбрать</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <!--4-Введите личные данные-------------------------------------->
+    {% if step >= 4 %}
+    <table>
+        <tr>
+            <th>3-Время приёма:</th>
+            <td>{{ ticket.time }}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    {% if step == 4 %}
+    <h2>4/4 - Введите личные данные:</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input type="submit" value="Далее">
+    </form>
+    {% endif %}
+
+    <!--4-Введите личные данные-------------------------------------->
+    {% if step == 5 %}
+    <table>
+        <tr>
+            <th>4-Личные данные:</th>
+            <td>{{ patient.surname }}</td>
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.patronymic }}</td>
+        </tr>
+    </table>
+    <h1>Вы записаны на приём!</h1>
+    {% endif %}
+
+</body>
+    </html>
