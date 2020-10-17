@@ -10,7 +10,7 @@
         <a href="/">Главная</a>
     </nav>
     <h2>Личные данные врача:</h2>
-    <form method="POST" action="editDoctor/">
+    <form method="POST">
         {% csrf_token %}
         <table>
             {{ form }}

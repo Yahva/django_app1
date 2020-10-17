@@ -157,7 +157,7 @@ def delTicket(request, ticketID):
 # Кабинет врача---------------------------------------
 def doctorAccount(request, docID):
     try:
-        doctor = Doctor.objects.get(id=docID)
+        oldDoctor = Doctor.objects.get(id=docID)
         tickets = Ticket.objects.filter(docID=docID)
         idPats = list()
         for ticket in tickets:
@@ -169,16 +169,25 @@ def doctorAccount(request, docID):
         for specDoctor in specDoctors:
             itemsSpecDoctor.append([specDoctor.id,specDoctor.name])
 
+        if request.method == "POST":
+            oldDoctor.surname = request.POST.get("surname")
+            oldDoctor.name = request.POST.get("name")
+            oldDoctor.patronymic = request.POST.get("patronymic")
+            oldDoctor.age = request.POST.get("age")
+            oldDoctor.sex = request.POST.get("sex")
+            oldDoctor.specDoctor = request.POST.get("specDoctor")
+            oldDoctor.save()
+
         doctorForm = DoctorForm()
-        doctorForm.fields["surname"].initial = doctor.surname
-        doctorForm.fields["name"].initial = doctor.name
-        doctorForm.fields["patronymic"].initial = doctor.patronymic
-        doctorForm.fields["age"].initial = doctor.age
-       # doctorForm.fields["sex"].initial = doctor.sex
-        doctorForm.fields["specDoctor"].initial = doctor.specDoctor
+        doctorForm.fields["surname"].initial = oldDoctor.surname
+        doctorForm.fields["name"].initial = oldDoctor.name
+        doctorForm.fields["patronymic"].initial = oldDoctor.patronymic
+        doctorForm.fields["age"].initial = oldDoctor.age
+        doctorForm.fields["sex"].initial = oldDoctor.sex
+        doctorForm.fields["specDoctor"].initial = oldDoctor.specDoctor
         doctorForm.fields["specDoctor"].choices = itemsSpecDoctor
 
-        data = {"form":doctorForm, "doctor": doctor, "patients":patients, "tickets":tickets}
+        data = {"form":doctorForm, "doctor": oldDoctor, "patients":patients, "tickets":tickets}
         return render(request, "doctorAccount.html", context=data)
     except Doctor.DoesNotExist:
        return HttpResponseNotFound("<h2>Доктор не выбран!</h2>")

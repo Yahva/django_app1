@@ -27,8 +27,6 @@
     <Compile Include="firstapp\admin.py" />
     <Compile Include="firstapp\apps.py" />
     <Compile Include="firstapp\forms.py" />
-    <Compile Include="firstapp\migrations\0001_initial.py" />
-    <Compile Include="firstapp\migrations\__init__.py" />
     <Compile Include="firstapp\models.py" />
     <Compile Include="firstapp\tests.py" />
     <Compile Include="firstapp\views.py" />
@@ -47,7 +45,6 @@
   <ItemGroup>
     <Folder Include="django_app1" />
     <Folder Include="firstapp" />
-    <Folder Include="firstapp\migrations" />
     <Folder Include="templates" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
