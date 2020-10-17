@@ -19,18 +19,21 @@ from django.urls import re_path
 from firstapp import views
 
 urlpatterns = [
-    path('', views.recordStep1),
+    path('', views.homePage),
+    path('recordStep/', views.recordStep1),
     path('recordStep/<int:specDocID>/', views.recordStep2),
     path('recordStep/<int:specDocID>/<int:docID>/', views.recordStep3),
     path('recordStep/<int:specDocID>/<int:docID>/<int:ticketID>/', views.recordStep4),
 
     path('createDoctor/', views.createDoctor),
     path('delDoctor/<int:docID>/', views.deleteDoctor),
+    path('doctorAccount/<int:docID>/', views.doctorAccount),
+    path('takePatient/<int:docID>/<int:patID>/', views.takePatient),
 
     path('createSpecDoctor/', views.createSpecDoctor),
     path('delSpecDoctor/<int:specDocID>/', views.delSpecDoctor),
 
     path('createTicket/', views.createTicket),
-    path('delTicket/<int:ticketID>/', views.delTicket),
+    path('delTicket/<int:ticketID>/', views.delTicket)
 ]
 

@@ -6,6 +6,9 @@
     <title>Создание врача</title>
 </head>
 <body>
+    <nav>
+        <a href="/">Главная</a>
+    </nav>
     <h2>Добавить врача:</h2>
     <form method="POST">
         {% csrf_token %}
@@ -23,8 +26,8 @@
             <td>{{ doctor.surname }}</td>
             <td>{{ doctor.name }}</td>
             <td>{{ doctor.patronymic }}</td>
-            <td>{{ doctor.specDoctor }}</td>
-            <td><a href="../delDoctor/{{doctor.id}}">Удалить</a></td>
+            <td>{% for specDoctor in specDoctors %}{% if specDoctor.id == doctor.specDoctor %}{{specDoctor.name}}{% endif %}{% endfor %}</td>
+            <td><a href="../delDoctor/{{doctor.id}}">Удалить</a> | <a href="../doctorAccount/{{doctor.id}}">Кабинет врача</a> </td>
         </tr>
         {% endfor %}
     </table>

@@ -6,6 +6,9 @@
     <title>Кабинет врача</title>
 </head>
 <body>
+    <nav>
+        <a href="/">Главная</a>
+    </nav>
     <h2>Личные данные врача:</h2>
     <form method="POST" action="editDoctor/">
         {% csrf_token %}
@@ -16,7 +19,7 @@
     </form>
     <h2>Список пациентов на приём:</h2>
     <table>
-        <tr><th>Id</th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Возраст</th></tr>
+        <tr><th>Id</th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Возраст</th><th>Время записи</th></tr>
         {% for patient in patients %}
         <tr>
             <td>{{ patient.id }}</td>
@@ -24,7 +27,8 @@
             <td>{{ patient.name }}</td>
             <td>{{ patient.patronymic }}</td>
             <td>{{ patient.age }}</td>
-            <td><a href="takePatient/{{patient.id}}">Принять</a> | <a href="deletePatient/{{patient.id}}">Удалить</a></td>
+            <td>{% for ticket in tickets %}{% if ticket.patID == patient.id  %}{{ticket.time}}{% endif %}{% endfor %}</td>
+            <td><a href="/takePatient/{{doctor.id}}/{{patient.id}}">Принять</a></td>
         </tr>
         {% endfor %}
     </table>

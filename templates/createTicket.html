@@ -6,6 +6,9 @@
     <title>Талоны</title>
 </head>
 <body>
+    <nav>
+        <a href="/">Главная</a>
+    </nav>
     <h2>Добавить талон:</h2>
     <form method="POST">
         {% csrf_token %}
@@ -16,16 +19,36 @@
     </form>
     <h2>Список талонов в системе:</h2>
     <table>
-        <tr><th>Id</th><th>Вермя</th><th>Сотояние</th><th>DocID</th></tr>
-        {% for ticket in tickets %}
+        <tr><th>Id</th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Специальность</th></tr>
+        {% for doctor in doctors %}
         <tr>
-            <td>{{ ticket.id }}</td>
-            <td>{{ ticket.time }}</td>
-            <td>{{ ticket.isBusy }}</td>
-            <td>{{ ticket.docID }}</td>
-            <td><a href="../delTicket/{{ticket.id}}">Удалить</a></td>
+            <td><i>{{ doctor.id }}</i></td>
+            <td><i>{{ doctor.surname }}</i></td>
+            <td><i>{{ doctor.name }}</i></td>
+            <td><i>{{ doctor.patronymic }}</i></td>
+            <td><i>({% for specDoctor in specDoctors %}{% if specDoctor.id == doctor.specDoctor %}{{specDoctor.name}}{% endif %}{% endfor %})</i></td>
+        </tr>
+        <tr>
+            <table>
+                {% for ticket in tickets %}
+                {% if ticket.docID == doctor.id %}
+                <tr>
+                    <td> |</td>
+                    <td>{{ ticket.time }}</td>
+                    {% if ticket.isBusy %}
+                    <td>Занято</td>
+                    {% else %}
+                    <td>Свободно</td>
+                    {% endif %}
+                    <td>|</td>
+                    <td><a href="../delTicket/{{ticket.id}}">Удалить</a></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
         </tr>
         {% endfor %}
     </table>
+
 </body>
 </html>
